@@ -206,7 +206,7 @@ std::vector<boost::filesystem::path> ProcessPointClouds<PointT>::streamPcd( std:
 
 template<typename PointT>
 std::unordered_set<int> ProcessPointClouds<PointT>::Ransac3d( typename pcl::PointCloud<PointT>::Ptr cloud,
-															  int maxIterations,
+															  int maxIterations, 
 															  float distanceTo )
 {
 	int sizeOfPointInCloud = cloud->points.size() ;
