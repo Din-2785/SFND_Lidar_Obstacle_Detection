@@ -75,7 +75,6 @@ typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud( t
 
 }
 
-
 template<typename PointT>
 std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::SeparateClouds( pcl::PointIndices::Ptr inliers, typename pcl::PointCloud<PointT>::Ptr cloud )
 {
@@ -84,7 +83,6 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
 	std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> segResult( cloud, cloud ) ;
 	return segResult ;
 }
-
 
 template<typename PointT>
 std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::SegmentPlane( typename pcl::PointCloud<PointT>::Ptr cloud,
@@ -98,8 +96,8 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
 	// TODO:: Fill in this function to find inliers for the cloud.
 	std::unordered_set<int> inliers = Ransac3d( cloud, maxIterations, distanceThreshold ) ;
 
-	pcl::PointCloud<PointT>::Ptr planeCloud( new pcl::PointCloud<PointT>() ) ;
-	pcl::PointCloud<PointT>::Ptr obstCloud( new pcl::PointCloud<PointT>() ) ;
+	typename pcl::PointCloud<PointT>::Ptr planeCloud( new pcl::PointCloud<PointT>() ) ;
+	typename pcl::PointCloud<PointT>::Ptr obstCloud( new pcl::PointCloud<PointT>() ) ;
 
 	int cloudPointSize = cloud->points.size() ;
 
