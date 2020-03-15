@@ -5,7 +5,7 @@ add_definitions(-std=c++11)
 set(CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
 
-project(playback)
+project(environment)
 
 find_package(PCL 1.2 REQUIRED)
 
