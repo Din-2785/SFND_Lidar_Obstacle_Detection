@@ -5,7 +5,7 @@ add_definitions(-std=c++11)
 set(CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
 
-project(playback)
+project(environment)
 
 find_package(PCL 1.2 REQUIRED)
 
@@ -15,7 +15,7 @@ add_definitions(${PCL_DEFINITIONS})
 list(REMOVE_ITEM PCL_LIBRARIES "vtkproj4")
 
 
-add_executable (environment src/environment.cpp src/render/render.cpp src/processPointClouds.cpp)
+add_executable (environment src/environment.cpp src/render/render.cpp src/processPointClouds.cpp src/kdTree/kdTree.cpp)
 target_link_libraries (environment ${PCL_LIBRARIES})
 
 

@@ -81,10 +81,13 @@ void clusterHelper( int indice,
 					KdTree* tree,
 					float distanceTol )
 {
+	//indice 시작으로 cluster 시작
 	processed[ indice ] = true ;
 	
 	cluster.push_back( indice ) ;
 
+	//indice 인근 모든 point를 가지고 온다.
+	//nearest = point index 집합.
 	std::vector<int> nearest = tree->search( points[ indice ], distanceTol ) ;
 
 	//Find near pointIdx close to 'nearest'(DFS)
@@ -159,7 +162,19 @@ int main()
 	pcl::visualization::PCLVisualizer::Ptr viewer = initScene( window, 25 );
 
 	// Create data
-	std::vector<std::vector<float>> points = { {-6.2,7}, {-6.3,8.4}, {-5.2,7.1}, {-5.7,6.3}, {7.2,6.1}, {8.0,5.3}, {7.2,7.1}, {0.2,-7.1}, {1.7,-6.9}, {-1.2,-7.2}, {2.2,-8.9} };
+	std::vector<std::vector<float>> points = {
+		{-6.2,7},
+		{-6.3,8.4},
+		{-5.2,7.1},
+		{-5.7,6.3},
+		{7.2,6.1},
+		{8.0,5.3},
+		{7.2,7.1},
+		{0.2,-7.1},
+		{1.7,-6.9},
+		{-1.2,-7.2},
+		{2.2,-8.9}
+	};
 	//std::vector<std::vector<float>> points = { {-6.2,7}, {-6.3,8.4}, {-5.2,7.1}, {-5.7,6.3} };
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud = CreateData( points );
 
@@ -192,8 +207,12 @@ int main()
 	for( std::vector<int> cluster : clusters )
 	{
 		pcl::PointCloud<pcl::PointXYZ>::Ptr clusterCloud( new pcl::PointCloud<pcl::PointXYZ>() );
+
+		//points[ indice ][ 0 ] : x 
+		//points[ indice ][ 1 ] : y
 		for( int indice : cluster )
 			clusterCloud->points.push_back( pcl::PointXYZ( points[ indice ][ 0 ], points[ indice ][ 1 ], 0 ) );
+
 		renderPointCloud( viewer, clusterCloud, "cluster" + std::to_string( clusterId ), colors[ clusterId % 3 ] );
 		++clusterId;
 	}
