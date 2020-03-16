@@ -51,7 +51,7 @@ typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud( t
 	pcl::CropBox<PointT> roof( true ) ;
 	roof.setMin( Eigen::Vector4f( -1.5, -1.7, -1, 1 ) ) ;
 	roof.setMax( Eigen::Vector4f( 2.6, 1.7, -0.4, 1 ) ) ;
-	roof.setInputCloud( cloudFiltered ) ;
+	roof.setInputCloud( cloudRegion ) ;
 	roof.filter( indicies ) ;
 
 	pcl::PointIndices::Ptr inliers{ new pcl::PointIndices } ;
@@ -135,11 +135,11 @@ void ProcessPointClouds<PointT>::FindProximity( int pointIndex,
 												KdTree* tree,
 												float distanceTol )
 {
-	isProcessed[ pointIndex ] = true ;
+	isProcessed[ pointIndex ] = true ;	
 
 	foundCluster.push_back( pointIndex ) ;
 
-	std::vector<int> nearest = tree->search( points[ pointIndex ], distanceTol ) ;
+	std::vector<int> nearest = tree->Search( points[ pointIndex ], distanceTol ) ;
 
 	for( int nearIndex : nearest )
 	{
@@ -150,13 +150,13 @@ void ProcessPointClouds<PointT>::FindProximity( int pointIndex,
 	}
 }
 
-
 template<typename PointT>
 std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::Clustering( typename pcl::PointCloud<PointT>::Ptr cloud,
 																						   float clusterTolerance,
 																						   int minSize,
 																						   int maxSize )
 {
+	//Using Built in function
 #if 0
 	// Time clustering process
 	auto startTime = std::chrono::steady_clock::now() ;
@@ -198,15 +198,15 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
 	return clusters ;
 #endif
 	std::vector<typename pcl::PointCloud<PointT>::Ptr> ret ;
-	
-	KdTree* tree = new KdTree ;
 
 	int cloudSize = cloud->points.size() ;
 
-	std::vector<std::vector<float>> convertedCloudPoint ;
+	KdTree* tree = new KdTree ;
+	std::vector<std::vector<float>> convertedPointCloud ;
 	std::vector<std::vector<int>> clusterIndices ;	
 	std::vector<bool> isProcessed( cloudSize, false ) ;
 
+	//Converting & Inserting 
 	for( int cloudPointIdx = 0 ; cloudPointIdx < cloudSize; cloudPointIdx++ )
 	{
 		std::vector<float> point( 3 ) ;
@@ -215,11 +215,12 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
 		point[ 1 ] = cloud->points[ cloudPointIdx ].y ;
 		point[ 2 ] = cloud->points[ cloudPointIdx ].z ;
 
-		convertedCloudPoint.push_back( point ) ;
+		convertedPointCloud.push_back( point ) ;
 
-		tree->insert( point, cloudPointIdx ) ;
+		tree->Insert( point, cloudPointIdx ) ;
 	}
 
+	//Get cluster's indicies
 	for( int pointIdx = 0 ; pointIdx < cloudSize; pointIdx++ )
 	{
 		if( true == isProcessed[ pointIdx ] )
@@ -227,14 +228,20 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
 			continue ;
 		}
 
-		std::vector<int> clusterPointIndices ;
+		std::vector<int> pointIndicies4Cluster ;
 
-		FindProximity( pointIdx, convertedCloudPoint, clusterPointIndices, isProcessed, tree, clusterTolerance ) ;
+		FindProximity( pointIdx, convertedPointCloud, pointIndicies4Cluster, isProcessed, tree, clusterTolerance ) ;
 
-		clusterIndices.push_back( clusterPointIndices ) ;
+		if ( minSize <= pointIndicies4Cluster.size() &&
+			 maxSize >= pointIndicies4Cluster.size() )
+		{
+			clusterIndices.push_back( pointIndicies4Cluster ) ;
+		}
 	}
 
-	for( int clusterIdx = 0; clusterIdx < clusterIndices.size(); clusterIdx++ )
+	int clusterSize = clusterIndices.size(); 
+
+	for( int clusterIdx = 0; clusterIdx < clusterSize; clusterIdx++ )
 	{
 		typename pcl::PointCloud<PointT>::Ptr cloudCluster( new pcl::PointCloud<PointT> ) ;
 
