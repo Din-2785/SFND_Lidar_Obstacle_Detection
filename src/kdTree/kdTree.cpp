@@ -1,4 +1,5 @@
 #include "kdTree.h"
+#include <cmath>
 
 /************************************************************************/
 void KdTree::InsertInternal( Node** root,
