@@ -3,8 +3,6 @@
 ### Sensor Fusion Nanodegree 
 
 
-![](https://github.com/Din-2785/SFND_Lidar_Obstacle_Detection/blob/master/media/jhbak_lidar_obstacle_detect.gif?raw=true)
-
 The objective of this project is to detect obstacle from PCD file which is from Lidar and to know how filtering, segmentation and Clustering are implemented.
 
 This project is showing techniques below.
@@ -15,6 +13,9 @@ This project is showing techniques below.
 
 3. **Clustering** : Through implementing 'K-d tree' and 'Euclidean Clustering' , cluster is defined
 
+### Result
+
+![](https://github.com/Din-2785/SFND_Lidar_Obstacle_Detection/blob/master/media/jhbak_lidar_obstacle_detect.gif?raw=true)
 
 ### Build
 
