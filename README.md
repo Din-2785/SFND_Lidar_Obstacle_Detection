@@ -30,9 +30,3 @@ $> make
 $> ./environment
 ```
 
-if on VisualStudio,
-
-[PCL]: https://github.com/PointCloudLibrary/pcl/releases
-
- version is necessary on PC.
-
