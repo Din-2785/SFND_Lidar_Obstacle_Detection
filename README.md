@@ -1,23 +1,46 @@
+
+
 # Lidar Obstacle Detection Project
 
 ### Sensor Fusion Nanodegree 
 
 
-The objective of this project is to detect obstacle from PCD file which is from Lidar and to know how filtering, segmentation and Clustering are implemented.
 
-This project is showing techniques below.
+#### 1. Goal
 
-1. **Filtering** : 'Down Sampling' and 'Region user will handle with filter' is implemented with PCL
+The objective of this project is to detect obstacle on the road with PCD file.
 
-2. **Segmentation :** Road and Obstacle (car, poll, anything on road) are separated by implementing RANSAC_3d
+Plus there is to make understand how to use PCL and how RANSAC and Euclidean Clustering are implemented.
 
-3. **Clustering** : Through implementing 'K-d tree' and 'Euclidean Clustering' , cluster is defined
 
-### Result
 
-![](https://github.com/Din-2785/SFND_Lidar_Obstacle_Detection/blob/master/media/jhbak_lidar_obstacle_detect.gif?raw=true)
+#### 2. Pipeline
 
-### Build
+1. Load PCD file which is from Lidar
+2. Filtering PCD file with the these techniques below
+   - DownSampling by using 'pcl::VoxelGrid'
+   - Defined region which will be filtered actually by using 'pcl::CropBox'
+
+3. Do Segmentation(separating road and obstacle) by implementing 'RANSAC algorithm'
+4. Do Clustering obstacles by implementing 'k-d Tree' and  'Euclidean Clustering algorithm'
+5. Make Bounding Box for each clusters.
+6. Rendering all objects which was filtered.
+
+
+
+#### 3. Result
+
+- **Before**
+
+  ![](https://github.com/Din-2785/SFND_Lidar_Obstacle_Detection/blob/master/media/jhbak_before.gif?raw=true)
+
+- **After**
+
+  ![](https://github.com/Din-2785/SFND_Lidar_Obstacle_Detection/blob/master/media/jhbak_result.gif?raw=true)
+
+
+
+#### 4. Build
 
 ```
 $> sudo apt install libpcl-dev
