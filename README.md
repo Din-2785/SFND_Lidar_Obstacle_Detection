@@ -6,7 +6,7 @@
 
 
 
-#### 1. Goal
+### 1. Goal
 
 The objective of this project is to detect obstacle on the road with PCD file.
 
@@ -14,7 +14,7 @@ Plus there is to make understand how to use PCL and how RANSAC and Euclidean Clu
 
 
 
-#### 2. Pipeline
+### 2. Pipeline
 
 1. Load PCD file which is from Lidar
 2. Filtering PCD file with the these techniques below
@@ -28,19 +28,19 @@ Plus there is to make understand how to use PCL and how RANSAC and Euclidean Clu
 
 
 
-#### 3. Result
+### 3. Result
 
-- **Before**
+- #### **Before**
 
   ![](https://github.com/Din-2785/SFND_Lidar_Obstacle_Detection/blob/master/media/jhbak_before.gif?raw=true)
 
-- **After**
+- #### **After**
 
   ![](https://github.com/Din-2785/SFND_Lidar_Obstacle_Detection/blob/master/media/jhbak_result.gif?raw=true)
 
 
 
-#### 4. Build
+### 4. Build
 
 ```
 $> sudo apt install libpcl-dev
